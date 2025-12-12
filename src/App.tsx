@@ -20,7 +20,7 @@ function App() {
         <Route path= "/patients" element = {
           <PrivateRoute><Patients searchTerm={""}/></PrivateRoute>} />
         <Route path= "/reports" element = {
-          <PrivateRoute><Reports SearchTerm={""}/></PrivateRoute>} />
+          <PrivateRoute><Reports/></PrivateRoute>} />
         <Route path= "/settings" element = {
           <PrivateRoute><Settings/></PrivateRoute>} />
         <Route path="/forgot-password" element={<ForgotPassword />} />

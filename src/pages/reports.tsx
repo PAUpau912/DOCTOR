@@ -1,3 +1,4 @@
+// reports.tsx
 import React, { useState, useEffect } from "react";
 import "../css/Reports.css";
 import supabase from "../supabaseClient";
@@ -60,6 +61,9 @@ interface DoctorNote {
   note: string;
 }
 
+// Keys for collapsed sections
+type SectionKey = "insulin" | "activities" | "meals" | "sleep" | "stress" | "doctorNotes";
+
 const Reports: React.FC = () => {
   const [patients, setPatients] = useState<Patient[]>([]);
   const [searchTerm, setSearchTerm] = useState("");
@@ -78,7 +82,7 @@ const Reports: React.FC = () => {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
 
-  const [collapsedSections, setCollapsedSections] = useState({
+  const [collapsedSections, setCollapsedSections] = useState<Record<SectionKey, boolean>>({
     insulin: false,
     activities: false,
     meals: false,
@@ -87,7 +91,7 @@ const Reports: React.FC = () => {
     doctorNotes: false,
   });
 
-  const toggleSection = (section: string) => {
+  const toggleSection = (section: SectionKey) => {
     setCollapsedSections((prev) => ({
       ...prev,
       [section]: !prev[section],
@@ -151,8 +155,8 @@ const Reports: React.FC = () => {
       setSleepLogs(sleepRes.data || []);
       setStressLogs(stressRes.data || []);
 
-      const notes = (reportsRes.data || [])
-        .map((r: any) => ({
+      const notes: DoctorNote[] = (reportsRes.data || [])
+        .map((r: { created_at: string; report_data?: { note?: string } }) => ({
           created_at: r.created_at,
           note: r.report_data?.note || "",
         }))
@@ -174,7 +178,7 @@ const Reports: React.FC = () => {
     return Math.floor(ageDiff / (1000 * 60 * 60 * 24 * 365.25));
   };
 
-  const filterByDate = (logs: any[]) => {
+  const filterByDate = <T extends { created_at: string }>(logs: T[]) => {
     return logs.filter((log) => {
       const logDate = new Date(log.created_at);
       const start = startDate ? new Date(startDate) : null;
@@ -186,6 +190,7 @@ const Reports: React.FC = () => {
   const filteredPatients = patients.filter((p) =>
     p.name.toLowerCase().includes(searchTerm.toLowerCase())
   );
+
   return (
     <div className="reports-container">
       {!selectedPatient ? (
@@ -433,7 +438,7 @@ const Reports: React.FC = () => {
                               <tr key={i}>
                                 <td>{i + 1}</td>
                                 <td>{new Date(s.created_at).toLocaleString()}</td>
-                                <td>{s.sleep_hours}</td>
+                                <td>{s.hours_slept}</td>
                                 <td>{s.notes || "—"}</td>
                               </tr>
                             ))}

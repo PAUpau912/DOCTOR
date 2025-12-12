@@ -1,7 +1,7 @@
 import { Navigate } from "react-router-dom";
 
 interface PrivateRouteProps {
-  children: JSX.Element;
+  children: React.ReactNode; // ← more flexible than JSX.Element
 }
 
 const PrivateRoute: React.FC<PrivateRouteProps> = ({ children }) => {
