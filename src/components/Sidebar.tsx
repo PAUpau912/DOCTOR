@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import '../css/Sidebar.css';
+import Logo from '../assets/images.png';
 
 interface SidebarProps {
   activePage: string;
@@ -42,7 +43,7 @@ const Sidebar: React.FC<SidebarProps> = ({ activePage, setActivePage }) => {
       {/* Sidebar */}
       <div className={`sidebar ${isOpen ? "open" : ""}`}>
         <div>
-          <img src="../src/assets/images.png" alt="App Logo" className="sidebar-logo" />
+          <img src={Logo} alt="App Logo" className="sidebar-logo" />
           <h3>SPC Medical</h3>
 
           <ul className="sidebar-menu">
@@ -93,4 +94,5 @@ const Sidebar: React.FC<SidebarProps> = ({ activePage, setActivePage }) => {
 };
 
 export default Sidebar;
+
 
