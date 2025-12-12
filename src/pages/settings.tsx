@@ -110,7 +110,7 @@ useEffect(() => {
 
         // Parse address safely
         if (doctorData.address) {
-          const parts = doctorData.address.split(",").map((p) => p.trim());
+          const parts = doctorData.address.split(",").map((p:any) => p.trim());
           setStreet(parts[0] || "");
           setBarangay(parts[1] || "");
           setCity(parts[2] || "");
@@ -564,3 +564,4 @@ const handleSendEmail = async () => {
 };
 
 export default Settings;
+
